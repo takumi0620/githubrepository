@@ -8,7 +8,7 @@ import com.example.repository.RepositoryData
 class RepositoryListController(private val listener: OnClickListener): TypedEpoxyController<Array<RepositoryData>>() {
 
     interface OnClickListener {
-        fun onClick(data: RepositoryData)
+        fun onClick(view: View, data: RepositoryData)
     }
 
     override fun buildModels(dataList: Array<RepositoryData>) {
@@ -17,7 +17,7 @@ class RepositoryListController(private val listener: OnClickListener): TypedEpox
                 .id(data.id)
                 .data(data)
                 .clickListener(View.OnClickListener {
-                    listener.onClick(data)
+                    listener.onClick(it, data)
                 })
                 .addTo(this)
         }

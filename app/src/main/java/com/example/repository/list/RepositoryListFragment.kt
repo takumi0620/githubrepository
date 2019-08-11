@@ -1,19 +1,20 @@
 package com.example.repository.list
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.NetworkUtil
 import com.example.R
 import com.example.main.TopFragment
 import com.example.repository.RepositoryData
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.repository_list_fragment.*
 
 class RepositoryListFragment : Fragment() {
@@ -28,14 +29,19 @@ class RepositoryListFragment : Fragment() {
     }
 
     private lateinit var listViewModel: RepositoryListViewModel
-    private val controller by lazy {
-        RepositoryListController(object :
-            RepositoryListController.OnClickListener {
-            override fun onClick(data: RepositoryData) {
+    private val controller = RepositoryListController(object : RepositoryListController.OnClickListener {
+        override fun onClick(view: View, data: RepositoryData) {
+            val context = context ?: throw RuntimeException("context is null")
+
+            if (NetworkUtil.isOnline(context)) {
+                // online
                 RepositoryReadmeDialogFragment.newInstance(data.html_url).showNow(fragmentManager, "${data.id}")
+            } else {
+                // offline
+                Snackbar.make(view, "OFFLINE", Snackbar.LENGTH_SHORT).show()
             }
-        })
-    }
+        }
+    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,  savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.repository_list_fragment, container, false)

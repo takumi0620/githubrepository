@@ -1,5 +1,8 @@
 package com.example.repository
 
+import androidx.room.Entity
+
+@Entity
 data class RepositoryData(
     var id: Int,
     var node_id: String,
