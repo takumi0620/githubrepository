@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="name" type="String"/>
+        <variable name="data" type="com.example.repository.RepositoryData"/>
         <variable name="clickListener" type="android.view.View.OnClickListener"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
             android:onClick="@{clickListener}">
         <TextView
                 android:id="@+id/repositoryName"
-                android:text="@{name}"
+                android:text="@{data.name}"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

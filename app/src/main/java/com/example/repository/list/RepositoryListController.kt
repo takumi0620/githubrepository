@@ -15,7 +15,7 @@ class RepositoryListController(private val listener: OnClickListener): TypedEpox
         dataList.forEach { data ->
             LayoutRepositoryRowBindingModel_()
                 .id(data.id)
-                .name(data.name)
+                .data(data)
                 .clickListener(View.OnClickListener {
                     listener.onClick(data)
                 })

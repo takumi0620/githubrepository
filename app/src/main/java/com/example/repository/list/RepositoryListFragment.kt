@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.repository_list_fragment.*
 class RepositoryListFragment : Fragment() {
 
     companion object {
+        const val KEY_HTML_URL = "KEY_HTML_URL"
         fun newInstance(userName: String) = RepositoryListFragment().apply {
             arguments = Bundle().apply {
                 putString(TopFragment.KEY_USER_NAME, userName)
@@ -31,7 +32,7 @@ class RepositoryListFragment : Fragment() {
         RepositoryListController(object :
             RepositoryListController.OnClickListener {
             override fun onClick(data: RepositoryData) {
-                Toast.makeText(context, "${data.full_name}", Toast.LENGTH_SHORT).show()
+                RepositoryReadmeDialogFragment.newInstance(data.html_url).showNow(fragmentManager, "${data.id}")
             }
         })
     }
