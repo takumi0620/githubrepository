@@ -1,21 +1,27 @@
-package com.example.repository.list
+package com.example.repository.list.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.NetworkUtil
+import com.example.util.NetworkUtil
 import com.example.R
-import com.example.main.TopFragment
-import com.example.repository.RepositoryData
+import com.example.databinding.RepositoryListFragmentBindingImpl
+import com.example.main.view.TopFragment
+import com.example.repository.list.model.data.RepositoryData
+import com.example.repository.list.viewmodel.RepositoryListViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.repository_list_fragment.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RepositoryListFragment : Fragment() {
 
@@ -29,13 +35,15 @@ class RepositoryListFragment : Fragment() {
     }
 
     private lateinit var listViewModel: RepositoryListViewModel
-    private val controller = RepositoryListController(object : RepositoryListController.OnClickListener {
+    private val controller = RepositoryListController(object :
+        RepositoryListController.OnClickListener {
         override fun onClick(view: View, data: RepositoryData) {
             val context = context ?: throw RuntimeException("context is null")
 
             if (NetworkUtil.isOnline(context)) {
                 // online
-                RepositoryReadmeDialogFragment.newInstance(data.html_url).showNow(fragmentManager, "${data.id}")
+                RepositoryReadmeDialogFragment.newInstance(data.html_url)
+                    .showNow(fragmentManager, "${data.id}")
             } else {
                 // offline
                 Snackbar.make(view, "OFFLINE", Snackbar.LENGTH_SHORT).show()
@@ -44,12 +52,15 @@ class RepositoryListFragment : Fragment() {
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,  savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.repository_list_fragment, container, false)
+        listViewModel = ViewModelProviders.of(this).get(RepositoryListViewModel::class.java)
+        val binding = DataBindingUtil.inflate<RepositoryListFragmentBindingImpl>(inflater, R.layout.repository_list_fragment, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = listViewModel
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        listViewModel = ViewModelProviders.of(this).get(RepositoryListViewModel::class.java)
 
         val arguments = arguments ?: throw RuntimeException("No arguments")
 
@@ -66,9 +77,13 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setUpObserver() {
-        listViewModel.dataList.observe(this, Observer {
-            val dataList = it ?: throw RuntimeException("exception data is null")
-            controller.setData(dataList)
+        listViewModel.dataList.observe(this, Observer { dataList ->
+            if (dataList.isNullOrEmpty()) {
+                repositoryList.visibility = View.GONE
+                noDataText.visibility = View.VISIBLE
+            } else {
+                controller.setData(dataList)
+            }
         })
     }
 

@@ -1,6 +1,6 @@
-package com.example.repository.api
+package com.example.repository.list.model.api
 
-import com.example.repository.RepositoryData
+import com.example.repository.list.model.data.RepositoryData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

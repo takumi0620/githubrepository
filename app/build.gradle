@@ -4,7 +4,11 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
 kapt {
     correctErrorTypes = true
 }
@@ -44,11 +48,17 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
+
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+
     implementation 'android.arch.lifecycle:extensions:2.0.0'
+
     implementation 'androidx.room:room-runtime:2.1.0'
-    annotationProcessor "androidx.room:room-compiler:2.1.0"
+    kapt "androidx.room:room-compiler:2.1.0"
+
     implementation 'org.koin:koin-android:1.0.2'
 
     implementation "com.airbnb.android:epoxy:3.7.0"

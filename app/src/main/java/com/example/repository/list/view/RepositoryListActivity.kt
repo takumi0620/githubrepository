@@ -1,9 +1,9 @@
-package com.example.repository.list
+package com.example.repository.list.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.R
-import com.example.main.TopFragment
+import com.example.main.view.TopFragment
 
 class RepositoryListActivity : AppCompatActivity() {
 
@@ -16,7 +16,11 @@ class RepositoryListActivity : AppCompatActivity() {
     private fun setUpView() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.repository,
-            RepositoryListFragment.newInstance(intent.getStringExtra(TopFragment.KEY_USER_NAME))
+            RepositoryListFragment.newInstance(
+                intent.getStringExtra(
+                    TopFragment.KEY_USER_NAME
+                )
+            )
         )
         transaction.commitNow()
     }

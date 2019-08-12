@@ -4,8 +4,21 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".main.TopFragment">
+        tools:context=".main.view.TopFragment">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/userName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/userName"
@@ -13,12 +26,12 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:layout_marginTop="200dp"
         android:hint="@string/top_user_name_hint"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
         android:id="@+id/get"
@@ -26,6 +39,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/top_get_button_text"
+        android:background="@drawable/material_window_light_green"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/userName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

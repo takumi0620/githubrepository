@@ -1,7 +1,7 @@
-package com.example.repository.api
+package com.example.repository.list.model.api
 
-import com.example.Constant
-import com.example.repository.RepositoryData
+import com.example.util.Constant
+import com.example.repository.list.model.data.RepositoryData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

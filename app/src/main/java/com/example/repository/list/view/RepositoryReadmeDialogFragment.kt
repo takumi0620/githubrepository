@@ -1,4 +1,4 @@
-package com.example.repository.list
+package com.example.repository.list.view
 
 import android.app.Dialog
 import android.os.Bundle
