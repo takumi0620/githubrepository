@@ -7,21 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.util.NetworkUtil
 import com.example.R
 import com.example.databinding.RepositoryListFragmentBindingImpl
 import com.example.main.view.TopFragment
 import com.example.repository.list.model.data.RepositoryData
 import com.example.repository.list.viewmodel.RepositoryListViewModel
+import com.example.util.NetworkUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.repository_list_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class RepositoryListFragment : Fragment() {
 
@@ -34,7 +31,8 @@ class RepositoryListFragment : Fragment() {
         }
     }
 
-    private lateinit var listViewModel: RepositoryListViewModel
+    private val listViewModel by viewModel<RepositoryListViewModel>()
+
     private val controller = RepositoryListController(object :
         RepositoryListController.OnClickListener {
         override fun onClick(view: View, data: RepositoryData) {
@@ -42,8 +40,7 @@ class RepositoryListFragment : Fragment() {
 
             if (NetworkUtil.isOnline(context)) {
                 // online
-                RepositoryReadmeDialogFragment.newInstance(data.html_url)
-                    .showNow(fragmentManager, "${data.id}")
+                RepositoryReadmeDialogFragment.newInstance(data.html_url).showNow(fragmentManager, "${data.id}")
             } else {
                 // offline
                 Snackbar.make(view, "OFFLINE", Snackbar.LENGTH_SHORT).show()
@@ -52,7 +49,6 @@ class RepositoryListFragment : Fragment() {
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,  savedInstanceState: Bundle?): View {
-        listViewModel = ViewModelProviders.of(this).get(RepositoryListViewModel::class.java)
         val binding = DataBindingUtil.inflate<RepositoryListFragmentBindingImpl>(inflater, R.layout.repository_list_fragment, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = listViewModel
@@ -74,6 +70,9 @@ class RepositoryListFragment : Fragment() {
         repositoryList.adapter = controller.adapter
         repositoryList.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         repositoryList.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        back.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     private fun setUpObserver() {
@@ -81,6 +80,7 @@ class RepositoryListFragment : Fragment() {
             if (dataList.isNullOrEmpty()) {
                 repositoryList.visibility = View.GONE
                 noDataText.visibility = View.VISIBLE
+                back.visibility = View.VISIBLE
             } else {
                 controller.setData(dataList)
             }

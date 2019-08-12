@@ -3,7 +3,8 @@
 
     <string name="top_user_name_hint">username</string>
     <string name="top_get_button_text">GET</string>
-    <string name="no_data">No data...</string>
+    <string name="repository_list_no_data">No data...</string>
+    <string name="repository_list_back">BACK</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

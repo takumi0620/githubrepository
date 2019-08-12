@@ -48,22 +48,32 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.2"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
+    def coroutine_version = "1.2.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    def retrofit_version = "2.6.1"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     implementation 'android.arch.lifecycle:extensions:2.0.0'
 
-    implementation 'androidx.room:room-runtime:2.1.0'
-    kapt "androidx.room:room-compiler:2.1.0"
+    def room_version = "2.1.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
-    implementation 'org.koin:koin-android:1.0.2'
+    def koin_version = "2.0.1"
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-core-ext:$koin_version"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-android-scope:$koin_version"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    implementation "org.koin:koin-android-ext:$koin_version"
 
-    implementation "com.airbnb.android:epoxy:3.7.0"
-    kapt "com.airbnb.android:epoxy-processor:3.7.0"
-    implementation "com.airbnb.android:epoxy-databinding:3.7.0"
+    def epoxy_version = "3.7.0"
+    implementation "com.airbnb.android:epoxy:$epoxy_version"
+    kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
+    implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
 
     implementation 'com.google.android.material:material:1.0.0'
 }
